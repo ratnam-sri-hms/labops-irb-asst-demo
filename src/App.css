@@ -10,50 +10,52 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
+    padding: 40px;
   }
   
   .card {
     background-color: #111827;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    max-width: 500px;
+    padding: 50px;
+    border-radius: 16px;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.35);
+    max-width: 720px;
     width: 100%;
     text-align: center;
   }
   
   .title {
     color: #17d4d4;
-    margin-bottom: 30px;
-    font-size: 1.8rem;
+    margin-bottom: 40px;
+    font-size: 2.2rem;
   }
   
   .label {
     display: block;
     text-align: left;
-    margin: 20px 0 8px;
+    margin: 25px 0 10px;
     font-weight: bold;
+    font-size: 1.1rem;
   }
   
   .file-input {
     display: block;
     width: 100%;
-    padding: 10px;
+    padding: 14px;
     background-color: #1f2937;
     border: 1px solid #374151;
-    border-radius: 6px;
+    border-radius: 8px;
     color: white;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    font-size: 1rem;
   }
   
   .analyze-btn {
     width: 100%;
-    padding: 12px;
+    padding: 16px;
     background-color: #17d4d4;
     border: none;
-    border-radius: 6px;
-    font-size: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
     font-weight: bold;
     color: #0a0f1a;
     cursor: pointer;
@@ -65,8 +67,8 @@ body {
   }
   
   .sample-link {
-    margin-top: 15px;
-    font-size: 0.95rem;
+    margin-top: 20px;
+    font-size: 1rem;
   }
   
   .link-btn {
@@ -75,7 +77,45 @@ body {
     color: #7fdbff;
     text-decoration: underline;
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 1rem;
     padding: 0;
+  }
+  
+  .response-box {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #1e293b;
+    color: #e2e8f0;
+    border-radius: 0.75rem;
+    max-height: 400px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    line-height: 1.65;
+    text-align: left;
+    border: 1px solid #334155;
+  }
+  
+  details summary {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    background-color: #1f2937;
+    transition: background-color 0.3s;
+    font-size: 1rem;
+  }
+  
+  details[open] summary {
+    background-color: #374151;
+  }
+  
+  details p {
+    margin: 10px 0 0;
+    padding: 10px;
+    background-color: #1e293b;
+    border-radius: 6px;
+    line-height: 1.5;
+    transition: all 0.3s ease;
   }
   

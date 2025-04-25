@@ -40,7 +40,16 @@ ${formText}
 Policy:
 ${policyText}
 
-Return a summary of matched sections and any potential concerns or mismatches.
+Return the result using the following structure:
+**Compliant Sections:**
+...
+
+**Potential Concerns:**
+...
+
+**Recommendations:**
+...
+
 `;
 
     console.log("Sending to Groq with formText:", formText);
@@ -118,9 +127,23 @@ Return a summary of matched sections and any potential concerns or mismatches.
         <div className="response-box">
             <h2 style={{ marginBottom: '0.5rem', fontSize: '1.1rem', color: '#7fdbff' }}>AI Response</h2>
 
-            <pre>{response}</pre>
+            <details open>
+            <summary><strong>Compliant Sections</strong></summary>
+            <p>{response.split('**Compliant Sections:**')[1]?.split('**Potential Concerns:**')[0] || "No compliant sections found."}</p>
+            </details>
+
+            <details>
+            <summary><strong>Potential Concerns</strong></summary>
+            <p>{response.split('**Potential Concerns:**')[1]?.split('**Recommendations:**')[0] || "No potential concerns found."}</p>
+            </details>
+
+            <details>
+            <summary><strong>Recommendations</strong></summary>
+            <p>{response.split('**Recommendations:**')[1] || "No recommendations found."}</p>
+            </details>
         </div>
         )}
+
 
       </div>
     </div>
