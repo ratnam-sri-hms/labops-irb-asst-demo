@@ -4,9 +4,8 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview",
-        "postinstall": "chmod +x node_modules/.bin/vite"
+        "build": "npx vite build",
+        "preview": "vite preview"
     },
     "dependencies": {
         "pdfjs-dist": "^5.1.91",
