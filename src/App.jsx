@@ -1,24 +1,32 @@
 import React, { useState } from 'react';
 import './App.css';
+import * as pdfjsLib from 'pdfjs-dist';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js`;
 
 
 function App() {
   const [irbForm, setIrbForm] = useState(null);
   const [irbPolicy, setIrbPolicy] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState('');
+
 
   const extractTextFromPDF = async (file) => {
-    const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf');
-    const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
-
-    let text = '';
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-      text += content.items.map((s) => s.str).join(' ') + '\n';
+    const loadingTask = pdfjsLib.getDocument({ data: await file.arrayBuffer() });
+    const pdf = await loadingTask.promise;
+  
+    let fullText = '';
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items.map(item => item.str).join(' ');
+      fullText += pageText + '\n';
     }
-    return text;
-  };
+  
+    return fullText.trim();
+  };  
+  
 
   const callGroqAPI = async (formText, policyText) => {
     const apiKey = import.meta.env.VITE_GROQ_API_KEY;
@@ -35,6 +43,10 @@ ${policyText}
 Return a summary of matched sections and any potential concerns or mismatches.
 `;
 
+    console.log("Sending to Groq with formText:", formText);
+    console.log("Sending to Groq with policyText:", policyText);
+
+
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -42,11 +54,19 @@ Return a summary of matched sections and any potential concerns or mismatches.
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "mixtral-8x7b-32768",
+        model: "llama-3.1-8b-instant",
         messages: [{ role: "user", content: prompt }],
         temperature: 0.3,
       }),
     });
+
+    console.log("Groq response status:", response.status);
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Groq API Error:", errorText);
+        throw new Error("Groq API request failed.");
+      }
 
     const data = await response.json();
     return data.choices?.[0]?.message?.content || "No response from Groq.";
@@ -64,11 +84,13 @@ Return a summary of matched sections and any potential concerns or mismatches.
 
       const result = await callGroqAPI(formText, policyText);
       console.log("Groq result:", result);
-      alert("Response logged in console!");
+      setResponse(result);
+
     } catch (err) {
-      console.error("Error:", err);
-      alert("Something went wrong.");
-    }
+        console.error("Full Error:", err?.stack || err);
+        setResponse("Something went wrong. Please try again.");
+      }
+      
 
     setLoading(false);
   };
@@ -91,6 +113,15 @@ Return a summary of matched sections and any potential concerns or mismatches.
         <p className="sample-link">
           or <button className="link-btn">Use Sample Files</button>
         </p>
+
+        {response && (
+        <div className="response-box">
+            <h2 style={{ marginBottom: '0.5rem', fontSize: '1.1rem', color: '#7fdbff' }}>AI Response</h2>
+
+            <pre>{response}</pre>
+        </div>
+        )}
+
       </div>
     </div>
   );
