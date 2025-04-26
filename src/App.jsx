@@ -13,7 +13,8 @@ function App() {
   const [successMessage, setSuccessMessage] = useState('');
   const [sampleFormURL, setSampleFormURL] = useState('');
   const [samplePolicyURL, setSamplePolicyURL] = useState('');
-
+  const [showFormPreview, setShowFormPreview] = useState(true);
+  const [showPolicyPreview, setShowPolicyPreview] = useState(true);
 
 
 
@@ -164,19 +165,26 @@ Return the result using the following structure:
           or <button className="link-btn" onClick={useSampleFiles}>Use Sample Files</button>
         </p>
 
-        {sampleFormURL && (
+        {sampleFormURL && showFormPreview && (
         <div className="sample-preview">
+            <div className="preview-header">
             <h3>Sample IRB Form Preview:</h3>
+            <button className="close-btn" onClick={() => setShowFormPreview(false)}>❌</button>
+            </div>
             <iframe src={sampleFormURL} width="100%" height="400px" title="Sample IRB Form"></iframe>
         </div>
         )}
 
-        {samplePolicyURL && (
+        {samplePolicyURL && showPolicyPreview && (
         <div className="sample-preview" style={{ marginTop: "20px" }}>
+            <div className="preview-header">
             <h3>Sample IRB Policy Preview:</h3>
+            <button className="close-btn" onClick={() => setShowPolicyPreview(false)}>❌</button>
+            </div>
             <iframe src={samplePolicyURL} width="100%" height="400px" title="Sample IRB Policy"></iframe>
         </div>
         )}
+
 
         {successMessage && <p className="success-message">{successMessage}</p>}
 

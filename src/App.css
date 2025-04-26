@@ -141,10 +141,25 @@ body {
     border-radius: 10px;
     overflow: hidden;
   }
-  
+
   .sample-preview h3 {
     color: #7fdbff;
     margin-bottom: 10px;
     font-size: 1.1rem;
+  }
+  
+  .preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    color: #7fdbff;
+    font-size: 1.2rem;
+    cursor: pointer;
   }
   
