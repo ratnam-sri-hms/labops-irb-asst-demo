@@ -118,4 +118,33 @@ body {
     line-height: 1.5;
     transition: all 0.3s ease;
   }
+
+  .file-name {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #a5f3fc;
+    text-align: left;
+  }
+  
+  .success-message {
+    margin-top: 20px;
+    color: #38f9a5;
+    font-weight: bold;
+    text-align: center;
+  }  
+  
+
+  .sample-preview {
+    margin-top: 20px;
+    background-color: #1f2937;
+    padding: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .sample-preview h3 {
+    color: #7fdbff;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+  }
   

@@ -10,6 +10,11 @@ function App() {
   const [irbPolicy, setIrbPolicy] = useState(null);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [sampleFormURL, setSampleFormURL] = useState('');
+  const [samplePolicyURL, setSamplePolicyURL] = useState('');
+
+
 
 
   const extractTextFromPDF = async (file) => {
@@ -37,14 +42,23 @@ function App() {
   
       const formFile = new File([formBlob], 'Sample_IRB_Form.pdf', { type: 'application/pdf' });
       const policyFile = new File([policyBlob], 'Sample_IRB_Policy.pdf', { type: 'application/pdf' });
+
+      const formURL = URL.createObjectURL(formBlob);
+      const policyURL = URL.createObjectURL(policyBlob);
+
   
       setIrbForm(formFile);
       setIrbPolicy(policyFile);
+
+      setSampleFormURL(formURL);
+      setSamplePolicyURL(policyURL);
+  
+      alert("Sample files loaded! Now click Analyze IRB.");
     } catch (error) {
-      alert("Failed to load sample files.");
       console.error(error);
+      alert("Failed to load sample files. Please try again.");
     }
-  };
+  }; 
   
 
   const callGroqAPI = async (formText, policyText) => {
@@ -113,11 +127,15 @@ Return the result using the following structure:
       const result = await callGroqAPI(formText, policyText);
       console.log("Groq result:", result);
       setResponse(result);
+      setSuccessMessage('✅ Analysis completed successfully!');
+
 
     } catch (err) {
         console.error("Full Error:", err?.stack || err);
         setResponse("Something went wrong. Please try again.");
+        setSuccessMessage('');
       }
+      
       
 
     setLoading(false);
@@ -130,9 +148,13 @@ Return the result using the following structure:
 
         <label className="label">Upload IRB Form (PDF)</label>
         <input className="file-input" type="file" accept="application/pdf" onChange={e => setIrbForm(e.target.files[0])} />
+        {irbForm && <p className="file-name">{irbForm.name}</p>}
+
 
         <label className="label">Upload IRB Policy (PDF)</label>
         <input className="file-input" type="file" accept="application/pdf" onChange={e => setIrbPolicy(e.target.files[0])} />
+        {irbPolicy && <p className="file-name">{irbPolicy.name}</p>}
+
 
         <button className="analyze-btn" onClick={handleAnalyze} disabled={loading}>
           {loading ? "Analyzing..." : "Analyze IRB"}
@@ -140,8 +162,24 @@ Return the result using the following structure:
 
         <p className="sample-link">
           or <button className="link-btn" onClick={useSampleFiles}>Use Sample Files</button>
-
         </p>
+
+        {sampleFormURL && (
+        <div className="sample-preview">
+            <h3>Sample IRB Form Preview:</h3>
+            <iframe src={sampleFormURL} width="100%" height="400px" title="Sample IRB Form"></iframe>
+        </div>
+        )}
+
+        {samplePolicyURL && (
+        <div className="sample-preview" style={{ marginTop: "20px" }}>
+            <h3>Sample IRB Policy Preview:</h3>
+            <iframe src={samplePolicyURL} width="100%" height="400px" title="Sample IRB Policy"></iframe>
+        </div>
+        )}
+
+        {successMessage && <p className="success-message">{successMessage}</p>}
+
 
         {response && (
         <div className="response-box">
