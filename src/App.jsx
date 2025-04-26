@@ -27,6 +27,25 @@ function App() {
     return fullText.trim();
   };  
   
+  const useSampleFiles = async () => {
+    try {
+      const formResponse = await fetch('/samples/Sample_IRB_Form.pdf');
+      const policyResponse = await fetch('/samples/Sample_IRB_Policy.pdf');
+  
+      const formBlob = await formResponse.blob();
+      const policyBlob = await policyResponse.blob();
+  
+      const formFile = new File([formBlob], 'Sample_IRB_Form.pdf', { type: 'application/pdf' });
+      const policyFile = new File([policyBlob], 'Sample_IRB_Policy.pdf', { type: 'application/pdf' });
+  
+      setIrbForm(formFile);
+      setIrbPolicy(policyFile);
+    } catch (error) {
+      alert("Failed to load sample files.");
+      console.error(error);
+    }
+  };
+  
 
   const callGroqAPI = async (formText, policyText) => {
     const apiKey = import.meta.env.VITE_GROQ_API_KEY;
@@ -120,7 +139,8 @@ Return the result using the following structure:
         </button>
 
         <p className="sample-link">
-          or <button className="link-btn">Use Sample Files</button>
+          or <button className="link-btn" onClick={useSampleFiles}>Use Sample Files</button>
+
         </p>
 
         {response && (
