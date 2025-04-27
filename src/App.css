@@ -5,13 +5,16 @@ body {
     color: white;
   }
   
+
   .app {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 40px;
+    background-color: #0d0d0d; /* (optional redundancy to force match) */
   }
+  
   
   .card {
     background-color: #111827;
