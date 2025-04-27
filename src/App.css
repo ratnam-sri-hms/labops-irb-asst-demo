@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #0d0d0d;
+    background-color: #101211;
     color: white;
   }
   
@@ -12,12 +12,12 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 40px;
-    background-color: #0d0d0d; /* (optional redundancy to force match) */
+    background-color: #101211; /* (optional redundancy to force match) */
   }
   
   
   .card {
-    background-color: #111827;
+    background-color: #0f172a;
     padding: 50px;
     border-radius: 16px;
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.35);
